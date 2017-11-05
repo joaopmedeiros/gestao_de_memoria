@@ -3,8 +3,10 @@
 \usepackage[portuges]{babel}
 \usepackage[latin1]{inputenc}
 \usepackage{listings}
+\usepackage{indentfirst}
+\usepackage{multicol}
 
-\parindent=0pt
+\parindent=25pt
 \parskip=2pt
 
 \title{Organização e Arquitetura de Computadores - Trabalho 3 }
@@ -21,19 +23,48 @@
 
 \section{Introdução}
 
-\section{Background}
+Inicialmente colocamos todas instruções do programa em um arquivo excel, inserindo em colunas cada um dos acesos à memória já convertidos para binário. 
+
+Após isso, fizemos uma lista de todos esses acessos e salvamos no arquivo \textit{acessos.txt}, carregando esse arquivo em um script Python para realização dos testes e estatíticas. Abaixo arquivos utilizados no trabalho.
+\begin{enumerate}
+	\item codigoacessos.xlsx - Arquivo usado para transcrever os endereços de memória
+	\item acessos.txt - Analítico de todos os endereços de memória usados
+	\item associativa.py - Script python para os testes de mapeamento associativo
+\end{enumerate}
+	
+\section{Testes com Mapeamento Direto}
+	
+
+\section{Testes com Mapeamento Associativo}
+Para realização dos testes de mapeamento direto criamos as seguintes estruturas de dados: uma lista de listas (endereco a ser acesso e resultado de acerto/erro), outra lista para representar a memória associativa, um dicionário para controlar o número de vezes que cada tag foi usada e um outro dicionário representando o conteúdo da cache.
+
+No início do script, quem estiver executando pode selecionar cada uma das 3 opções de acordo com o tamanho da tag e da palavra, e logo após verificar os resultados.
+
+Utilizamos a política de substituição LFU (Least Frequent Used), que é controlada pelo dicionário já mencionado.
+
+Abaixo trecho de código principal, que faz a simulação do mapeamento associativo.
+
+
 \lstset{language=Python}
 \lstset{frame=lines}
-\lstset{caption={Insert code directly in your document}}
+\lstset{caption={Loop principal da gestão de acesso}}
 \lstset{label={lst:code_direct}}
 \lstset{basicstyle=\footnotesize}
 \begin{lstlisting}
 for i in lista_acessos:
+    # Inicia percorrendo cada endereço,
+    # extrai os primeiros x carcteres do endereço e grava na variável tag.
+    # Se a tag for encontrada na lista que corresponde a mem. associativa,
+    # grava na lista HIT, adiciona o controle de uso e grava todo end. na cache    
     tag = i[0][:tam_tag]
     if tag in lista_mem_associativa:
         i[1] = 'HIT'
         dic_cache_controle_uso[tag] = dic_cache_controle_uso[tag] + 1
         cache[tag].add(i[0])
+
+    # Se a tag nao for encontrada na memoria associativa, grava MISS na lista
+    # de acessos, adiciona ela, se tiver espaco livre, na memoria associativa
+    # depois atualiza controle de uso e cache
     else:
         i[1] = 'MISS'
         if(len(lista_mem_associativa)<tam_cache):
@@ -41,10 +72,16 @@ for i in lista_acessos:
             dic_cache_controle_uso[tag] = 1
             cache[tag] = set()
             cache[tag].add(i[0])
+     
+        # Nao tendo espaco na mem. associativa, ordena o dicionario de uso
+        # do menor uso para o maior, pegando a menos usada para ser substituida
+        # retira a tag menos, usada, coloca a nova, e atualiza todas estruturas
+        # usada.
         else:
             for key in sorted(dic_cache_controle_uso):
                 tag_menos_usada = key
-                lista_mem_associativa[lista_mem_associativa.index(tag_menos_usada)] = tag
+                lista_mem_associativa[lista_mem_associativa.index(
+                tag_menos_usada)] = tag
                 dic_cache_controle_uso.pop(tag_menos_usada)
                 dic_cache_controle_uso[tag] = 1
                 cache.pop(tag_menos_usada)
@@ -56,7 +93,7 @@ for i in lista_acessos:
 \subsubsection{Conceitos básicos em XXX.1}
 Aqui vai um exemplo de uma lista numerada
 \begin{enumerate}
-\item primeira característica desta fase
+\item codigoacessos.xlsx - 
 \item segunda característica desta fase
 \item terceira característica desta fase
 \end{enumerate}
@@ -70,10 +107,6 @@ defendidas a seguir:
 \end{description}
 
 \subsection{Conceitos básicos em YYY}
-
-\section{A Proposta}
-
-\section{A sua Implementação}
 
 \section{Conclusão}
 Síntese do que foi dito.\\
