@@ -1,0 +1,86 @@
+\documentclass{article}
+
+\usepackage[portuges]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{listings}
+
+\parindent=0pt
+\parskip=2pt
+
+\title{Organização e Arquitetura de Computadores - Trabalho 3 }
+\author{João Paulo Medeiros Cecilio 
+        \and 
+        Bruno Bragança Mendes }
+\date{Novembro de 2017}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Introdução}
+
+\section{Background}
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Insert code directly in your document}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\footnotesize}
+\begin{lstlisting}
+for i in lista_acessos:
+    tag = i[0][:tam_tag]
+    if tag in lista_mem_associativa:
+        i[1] = 'HIT'
+        dic_cache_controle_uso[tag] = dic_cache_controle_uso[tag] + 1
+        cache[tag].add(i[0])
+    else:
+        i[1] = 'MISS'
+        if(len(lista_mem_associativa)<tam_cache):
+            lista_mem_associativa.append(tag)
+            dic_cache_controle_uso[tag] = 1
+            cache[tag] = set()
+            cache[tag].add(i[0])
+        else:
+            for key in sorted(dic_cache_controle_uso):
+                tag_menos_usada = key
+                lista_mem_associativa[lista_mem_associativa.index(tag_menos_usada)] = tag
+                dic_cache_controle_uso.pop(tag_menos_usada)
+                dic_cache_controle_uso[tag] = 1
+                cache.pop(tag_menos_usada)
+                cache[tag] = set()
+                cache[tag].add(i[0])
+                break
+\end{lstlisting}
+\subsection{Conceitos básicos em XXX}
+\subsubsection{Conceitos básicos em XXX.1}
+Aqui vai um exemplo de uma lista numerada
+\begin{enumerate}
+\item primeira característica desta fase
+\item segunda característica desta fase
+\item terceira característica desta fase
+\end{enumerate}
+
+\subsubsection{Conceitos básicos em XXX.2}
+Seguem-se algumas definições fundamentais para se perceberem as ideias 
+defendidas a seguir:
+\begin{description}
+\item[conceito 1] respectiva definição 1
+\item[conceito 2] descrição do  conceito 2
+\end{description}
+
+\subsection{Conceitos básicos em YYY}
+
+\section{A Proposta}
+
+\section{A sua Implementação}
+
+\section{Conclusão}
+Síntese do que foi dito.\\
+Lista dos resultados atingidos:
+\begin{itemize}
+\item resultado 1
+\item resultado 2
+\end{itemize}
+Conclusão final e Trabalho Futuro.
+\end{document}
