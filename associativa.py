@@ -1,13 +1,13 @@
 # Menu inicial e selecao da config da cahce
 print("#"*50)
-print("Teste de gestão de memória associativa")
-print("Selecione a opção desejada para configuração do teste")
+print("Teste de gestao de memoria associativa")
+print("Selecione a opcao desejada para configuracao do teste")
 print("1) 5 bits para tag e 3 bits para palavra.")
 print("2) 6 bits para tag e 2 bits para palavra.")
 print("3) 7 bits para tag e 1 bit para palavra.")
 opcao = -1
 while(opcao<1 or opcao>3):
-    opcao = int(input("Opção: "))
+    opcao = int(input("Opcao: "))
 if(opcao==1):
     tam_tag = 5
     tam_cache = 4
@@ -65,26 +65,26 @@ hits = 0
 misses = 0
 for i in lista_acessos:
     if(i[1]=='HIT'):
-        hits = hits+1
+        hits = hits + 1
     elif(i[1]=='MISS'):
-        misses = misses +1
+        misses = misses + 1
     else:
         print("Algo deu errado.")
 total = hits+misses
-perc_hits = round(hits/total,4)*100
-perc_misses = round(misses/total,4)*100
+perc_hits = round(hits/float(total),4)*100
+perc_misses = round(misses/float(total),4)*100
 
 # Mandando pra tela os resultados
 print("#"*50)
-print("Estatísticas")
+print("Estatisticas")
 print("Total de HIT: {}. Total de MISS: {}. Perc. de HIT: {} %. Perc. de MISS: {} %.".format(hits,misses,perc_hits,perc_misses))
 print("#"*50)
-print("Configuração final da memoria associativa: ")
+print("Configuracao final da memoria associativa: ")
 print(lista_mem_associativa)
-print("Configuração final da cache: ")
+print("Configuracao final da cache: ")
 print(cache)
 print("#"*50)
-print("Analítico de HITs e MISSes por endereço: ")
+print("Analitico de HITs e MISSes por endereco: ")
 for i in lista_acessos:
     print(i)
 
