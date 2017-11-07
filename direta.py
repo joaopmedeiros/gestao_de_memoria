@@ -1,10 +1,10 @@
 from numpy import binary_repr
 import sys
 
-def gerarEnderecos(palavraOriginal, dicionarioTag, linha, tag, tamanho_palavra):
+def gerarEnderecos(enderecoOriginal, dicionarioTag, linha, tag, tamanho_palavra):
     for i in range(pow(2,tamanho_palavra)):
         final = binary_repr(i, tamanho_palavra)
-        dados = palavraOriginal[:-tamanho_palavra]
+        dados = enderecoOriginal[:-tamanho_palavra]
         dados = dados + final
         dicionarioTag[linha][tag].append(dados)
 
