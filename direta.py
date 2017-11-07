@@ -1,6 +1,13 @@
 from numpy import binary_repr
 import sys
 
+def gerarPalavras(palavraOriginal, dicionarioTag, linha, tag, tamanho_palavra):
+    for i in range(pow(2,tamanho_palavra)):
+        final = binary_repr(i, tamanho_palavra)
+        dados = palavraOriginal[:-tamanho_palavra]
+        dados = dados + final
+        dicionarioTag[linha][tag].append(dados)
+
 def memoria_direta(arquivo):
     repetir = "S"
     while repetir != 'N':
@@ -16,20 +23,23 @@ def memoria_direta(arquivo):
         while opcao < 0 or opcao > 3:
             opcao = int(input("Opcao: "))
         if (opcao == 1):
-            tam_tag = 3
+            bits = 8
+            tam_palavra = 3
             tam_linha = 2
-            tam_cache = 4
-            pal_por_linha = 8
+            tam_tag = bits - tam_linha - tam_palavra
+            tam_cache = pow(2,tam_linha)
         elif (opcao == 2):
-            tam_tag = 3
+            bits = 8
+            tam_palavra = 2
             tam_linha = 3
-            tam_cache = 8
-            pal_por_linha = 4
+            tam_tag = bits - tam_linha - tam_palavra
+            tam_cache = pow(2,tam_linha)
         elif opcao == 3:
-            tam_tag = 3
+            bits = 8
+            tam_palavra = 1
             tam_linha = 4
-            tam_cache = 16
-            pal_por_linha = 2
+            tam_tag = bits - tam_linha - tam_palavra
+            tam_cache = pow(2,tam_linha)
         else:
             print("")
             import principal as prin
@@ -61,35 +71,22 @@ def memoria_direta(arquivo):
 
         for j in lista_acessos:
             tag = j[0][:tam_tag]
-            linha = j[0][tam_tag:tam_tag + tam_linha]
+            linha = j[0][tam_tag:-tam_palavra] #tam_tag + tam_linha
             if linha in dicionarioCache:
                 if dicionarioCache.get(linha) == '0':
                     j[1] = 'MISS'
                     dicionarioCache[linha] = 1
                     dicionarioTag[linha] = {tag: []}
-                    if len(dicionarioTag[linha][tag]) == pal_por_linha:
-                        dicionarioTag[linha][tag].pop(0)
-                        dicionarioTag[linha][tag].append(j[0])
-                    else:
-                        dicionarioTag[linha][tag].append(j[0])
+                    gerarPalavras(j[0], dicionarioTag, linha, tag, tam_palavra)
                 else:
 
                     if tag in dicionarioTag[linha].keys():
                         j[1] = 'HIT'
-                        if len(dicionarioTag[linha][tag]) == pal_por_linha:
-                            dicionarioTag[linha][tag].pop(0)
-                            dicionarioTag[linha][tag].append(j[0])
-                        else:
-                            dicionarioTag[linha][tag].append(j[0])
                     else:
                         j[1] = 'MISS'
                         dicionarioCache[linha] = 1
                         dicionarioTag[linha] = {tag: []}
-                        if len(dicionarioTag[linha][tag]) == pal_por_linha:
-                            dicionarioTag[linha][tag].pop(0)
-                            dicionarioTag[linha][tag].append(j[0])
-                        else:
-                            dicionarioTag[linha][tag].append(j[0])
+                        gerarPalavras(j[0], dicionarioTag, linha, tag, 8 - tam_tag - tam_linha)
             else:
                 sys.exit("Linha nao encontrada.")
 
