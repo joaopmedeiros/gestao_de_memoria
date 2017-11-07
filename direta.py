@@ -71,7 +71,7 @@ def memoria_direta(arquivo):
 
         for j in lista_acessos:
             tag = j[0][:tam_tag]
-            linha = j[0][tam_tag:-tam_palavra] #tam_tag + tam_linha
+            linha = j[0][tam_tag:-tam_palavra]
             if linha in dicionarioCache:
                 if dicionarioCache.get(linha) == '0':
                     j[1] = 'MISS'
