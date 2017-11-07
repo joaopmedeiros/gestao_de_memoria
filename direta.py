@@ -1,7 +1,7 @@
 from numpy import binary_repr
 import sys
 
-def gerarPalavras(palavraOriginal, dicionarioTag, linha, tag, tamanho_palavra):
+def gerarEnderecos(palavraOriginal, dicionarioTag, linha, tag, tamanho_palavra):
     for i in range(pow(2,tamanho_palavra)):
         final = binary_repr(i, tamanho_palavra)
         dados = palavraOriginal[:-tamanho_palavra]
@@ -77,7 +77,7 @@ def memoria_direta(arquivo):
                     j[1] = 'MISS'
                     dicionarioCache[linha] = 1
                     dicionarioTag[linha] = {tag: []}
-                    gerarPalavras(j[0], dicionarioTag, linha, tag, tam_palavra)
+                    gerarEnderecos(j[0], dicionarioTag, linha, tag, tam_palavra)
                 else:
 
                     if tag in dicionarioTag[linha].keys():
@@ -86,7 +86,7 @@ def memoria_direta(arquivo):
                         j[1] = 'MISS'
                         dicionarioCache[linha] = 1
                         dicionarioTag[linha] = {tag: []}
-                        gerarPalavras(j[0], dicionarioTag, linha, tag, 8 - tam_tag - tam_linha)
+                        gerarEnderecos(j[0], dicionarioTag, linha, tag, 8 - tam_tag - tam_linha)
             else:
                 sys.exit("Linha nao encontrada.")
 
