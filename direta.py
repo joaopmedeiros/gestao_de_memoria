@@ -79,14 +79,14 @@ def memoria_direta(arquivo):
                     dicionarioTag[linha] = {tag: []}
                     gerarEnderecos(j[0], dicionarioTag, linha, tag, tam_palavra)
                 else:
-
                     if tag in dicionarioTag[linha].keys():
-                        j[1] = 'HIT'
+                        if dicionarioTag[linha][tag].count(j[0]) == 1:
+                            j[1] = 'HIT'
                     else:
                         j[1] = 'MISS'
                         dicionarioCache[linha] = 1
                         dicionarioTag[linha] = {tag: []}
-                        gerarEnderecos(j[0], dicionarioTag, linha, tag, 8 - tam_tag - tam_linha)
+                        gerarEnderecos(j[0], dicionarioTag, linha, tag, tam_palavra)
             else:
                 sys.exit("Linha nao encontrada.")
 
